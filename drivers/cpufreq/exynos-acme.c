@@ -1391,7 +1391,7 @@ static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1) /*integer remains in
 }
 __setup("cpu_min_c1=", cpufreq_read_cpu_min_c1);
 
-/*Underclocking big cores to 247MHz*/
+/*Underclocking big cores to 130MHz*/
 unsigned long arg_cpu_min_c2 = 130000; 
 
 static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
@@ -1411,8 +1411,8 @@ __setup("cpu_min_c2=", cpufreq_read_cpu_min_c2);
 
 
 /*Chatur, Carlos Burero, physwizz & SUFandom */
-/*Overclocking little cores to 2.1GHz*/
-static unsigned long arg_cpu_max_c1 = 210000; /*max_cpu_freq=2.1 GHz for little cores*/
+/*Overclocking little cores to 2.2GHz*/
+static unsigned long arg_cpu_max_c1 = 2210000; /*max_cpu_freq=2.2 GHz for little cores*/
 
 static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1) /*integer remains in memory after function call*/
 {
@@ -1429,8 +1429,8 @@ static int __init cpufreq_read_cpu_max_c1(char *cpu_max_c1) /*integer remains in
 }
 __setup("cpu_max_c1=", cpufreq_read_cpu_max_c1);
 
-/*Overclocking big cores to 2.13GHz*/
-unsigned long arg_cpu_max_c2 = 2130600; /*max_cpu_freq=2.13 GHz*/
+/*Overclocking big cores to 2.2GHz*/
+unsigned long arg_cpu_max_c2 = 2210000; /*max_cpu_freq=2.2 GHz*/
 
 static __init int cpufreq_read_cpu_max_c2(char *cpu_max_c2)
 {
