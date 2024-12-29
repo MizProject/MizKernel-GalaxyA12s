@@ -1,7 +1,5 @@
 Changelogs
 
 
-v2.0rc1-Clorinde-Unstable-
-- Initial Version of MizKernel
-- Included patch from Samsung's Patch for Oct 2024
-- OC at 2.2GHz, UC at 130MHz
+v2.0rc2-Clorinde-Unstable-
+- Upstream from 111 to 112
