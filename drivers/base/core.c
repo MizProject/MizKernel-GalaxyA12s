@@ -177,10 +177,6 @@ void device_pm_move_to_tail(struct device *dev)
 	device_links_read_unlock(idx);
 }
 
-#define DL_MANAGED_LINK_FLAGS (DL_FLAG_AUTOREMOVE_CONSUMER | \
-			       DL_FLAG_AUTOREMOVE_SUPPLIER | \
-			       DL_FLAG_AUTOPROBE_CONSUMER)
-
 /**
  * device_link_add - Create a link between two devices.
  * @consumer: Consumer end of the link.
@@ -195,27 +191,10 @@ void device_pm_move_to_tail(struct device *dev)
  * of the link.  If DL_FLAG_PM_RUNTIME is not set, DL_FLAG_RPM_ACTIVE will be
  * ignored.
  *
- * If DL_FLAG_STATELESS is set in @flags, the link is not going to be managed by
- * the driver core and, in particular, the caller of this function is expected
- * to drop the reference to the link acquired by it directly.
- *
- * If that flag is not set, however, the caller of this function is handing the
- * management of the link over to the driver core entirely and its return value
- * can only be used to check whether or not the link is present.  In that case,
- * the DL_FLAG_AUTOREMOVE_CONSUMER and DL_FLAG_AUTOREMOVE_SUPPLIER device link
- * flags can be used to indicate to the driver core when the link can be safely
- * deleted.  Namely, setting one of them in @flags indicates to the driver core
- * that the link is not going to be used (by the given caller of this function)
- * after unbinding the consumer or supplier driver, respectively, from its
- * device, so the link can be deleted at that point.  If none of them is set,
- * the link will be maintained until one of the devices pointed to by it (either
- * the consumer or the supplier) is unregistered.
- *
- * Also, if DL_FLAG_STATELESS, DL_FLAG_AUTOREMOVE_CONSUMER and
- * DL_FLAG_AUTOREMOVE_SUPPLIER are not set in @flags (that is, a persistent
- * managed device link is being added), the DL_FLAG_AUTOPROBE_CONSUMER flag can
- * be used to request the driver core to automaticall probe for a consmer
- * driver after successfully binding a driver to the supplier device.
+ * If the DL_FLAG_AUTOREMOVE_CONSUMER flag is set, the link will be removed
+ * automatically when the consumer device driver unbinds from it.  Analogously,
+ * if DL_FLAG_AUTOREMOVE_SUPPLIER is set in @flags, the link will be removed
+ * automatically when the supplier device driver unbinds from it.
  *
  * The combination of DL_FLAG_STATELESS and either DL_FLAG_AUTOREMOVE_CONSUMER
  * or DL_FLAG_AUTOREMOVE_SUPPLIER set in @flags at the same time is invalid and
@@ -236,11 +215,10 @@ struct device_link *device_link_add(struct device *consumer,
 	struct device_link *link;
 
 	if (!consumer || !supplier ||
-	    (flags & ~(DL_FLAG_STATELESS | DL_MANAGED_LINK_FLAGS)) ||
-	    (flags & DL_FLAG_STATELESS && flags & DL_MANAGED_LINK_FLAGS) ||
-	    (flags & DL_FLAG_AUTOPROBE_CONSUMER &&
-	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER |
-		      DL_FLAG_AUTOREMOVE_SUPPLIER)))
+	    (flags & DL_FLAG_SYNC_STATE_ONLY &&
+	     flags != DL_FLAG_SYNC_STATE_ONLY) ||
+	    (flags & DL_FLAG_STATELESS &&
+	     flags & (DL_FLAG_AUTOREMOVE_CONSUMER | DL_FLAG_AUTOREMOVE_SUPPLIER)))
 		return NULL;
 
 	if (flags & DL_FLAG_PM_RUNTIME && flags & DL_FLAG_RPM_ACTIVE) {
@@ -280,6 +258,12 @@ struct device_link *device_link_add(struct device *consumer,
 			goto out;
 		}
 
+		if (flags & DL_FLAG_AUTOREMOVE_CONSUMER)
+			link->flags |= DL_FLAG_AUTOREMOVE_CONSUMER;
+
+		if (flags & DL_FLAG_AUTOREMOVE_SUPPLIER)
+			link->flags |= DL_FLAG_AUTOREMOVE_SUPPLIER;
+
 		if (flags & DL_FLAG_PM_RUNTIME) {
 			if (!(link->flags & DL_FLAG_PM_RUNTIME)) {
 				pm_runtime_new_link(consumer);
@@ -289,24 +273,12 @@ struct device_link *device_link_add(struct device *consumer,
 				refcount_inc(&link->rpm_active);
 		}
 
-		if (flags & DL_FLAG_STATELESS) {
-			kref_get(&link->kref);
-			goto out;
-		}
+		kref_get(&link->kref);
 
-		/*
-		 * If the life time of the link following from the new flags is
-		 * longer than indicated by the flags of the existing link,
-		 * update the existing link to stay around longer.
-		 */
-		if (flags & DL_FLAG_AUTOREMOVE_SUPPLIER) {
-			if (link->flags & DL_FLAG_AUTOREMOVE_CONSUMER) {
-				link->flags &= ~DL_FLAG_AUTOREMOVE_CONSUMER;
-				link->flags |= DL_FLAG_AUTOREMOVE_SUPPLIER;
-			}
-		} else if (!(flags & DL_FLAG_AUTOREMOVE_CONSUMER)) {
-			link->flags &= ~(DL_FLAG_AUTOREMOVE_CONSUMER |
-					 DL_FLAG_AUTOREMOVE_SUPPLIER);
+		if (link->flags & DL_FLAG_SYNC_STATE_ONLY &&
+		    !(flags & DL_FLAG_SYNC_STATE_ONLY)) {
+			link->flags &= ~DL_FLAG_SYNC_STATE_ONLY;
+			goto reorder;
 		}
 		goto out;
 	}
@@ -371,14 +343,6 @@ struct device_link *device_link_add(struct device *consumer,
 	if (flags & DL_FLAG_SYNC_STATE_ONLY)
 		goto out;
 reorder:
-	/*
-	 * Some callers expect the link creation during consumer driver probe to
-	 * resume the supplier even without DL_FLAG_RPM_ACTIVE.
-	 */
-	if (link->status == DL_STATE_CONSUMER_PROBE &&
-	    flags & DL_FLAG_PM_RUNTIME)
-		pm_runtime_resume(supplier);
-
 	/*
 	 * Move the consumer and all of the devices depending on it to the end
 	 * of dpm_list and the devices_kset list.
@@ -789,16 +753,6 @@ void device_links_driver_bound(struct device *dev)
 		if (link->flags & DL_FLAG_STATELESS)
 			continue;
 
-		/*
-		 * Links created during consumer probe may be in the "consumer
-		 * probe" state to start with if the supplier is still probing
-		 * when they are created and they may become "active" if the
-		 * consumer probe returns first.  Skip them here.
-		 */
-		if (link->status == DL_STATE_CONSUMER_PROBE ||
-		    link->status == DL_STATE_ACTIVE)
-			continue;
-
 		WARN_ON(link->status != DL_STATE_DORMANT);
 		WRITE_ONCE(link->status, DL_STATE_AVAILABLE);
 	}
@@ -850,45 +804,17 @@ static void __device_links_no_driver(struct device *dev)
 			continue;
 
 		if (link->flags & DL_FLAG_AUTOREMOVE_CONSUMER)
-			__device_link_del(&link->kref);
-		else if (link->status == DL_STATE_CONSUMER_PROBE ||
-			 link->status == DL_STATE_ACTIVE)
+			kref_put(&link->kref, __device_link_del);
+		else if (link->status != DL_STATE_SUPPLIER_UNBIND)
 			WRITE_ONCE(link->status, DL_STATE_AVAILABLE);
 	}
 
 	dev->links.status = DL_DEV_NO_DRIVER;
 }
 
-/**
- * device_links_no_driver - Update links after failing driver probe.
- * @dev: Device whose driver has just failed to probe.
- *
- * Clean up leftover links to consumers for @dev and invoke
- * %__device_links_no_driver() to update links to suppliers for it as
- * appropriate.
- *
- * Links with the DL_FLAG_STATELESS flag set are ignored.
- */
 void device_links_no_driver(struct device *dev)
 {
 	device_links_write_lock();
-
-	list_for_each_entry(link, &dev->links.consumers, s_node) {
-		if (link->flags & DL_FLAG_STATELESS)
-			continue;
-
-		/*
-		 * The probe has failed, so if the status of the link is
-		 * "consumer probe" or "active", it must have been added by
-		 * a probing consumer while this device was still probing.
-		 * Change its state to "dormant", as it represents a valid
-		 * relationship, but it is not functionally meaningful.
-		 */
-		if (link->status == DL_STATE_CONSUMER_PROBE ||
-		    link->status == DL_STATE_ACTIVE)
-			WRITE_ONCE(link->status, DL_STATE_DORMANT);
-	}
-
 	__device_links_no_driver(dev);
 	device_links_write_unlock();
 }
@@ -923,7 +849,7 @@ void device_links_driver_cleanup(struct device *dev)
 		 */
 		if (link->status == DL_STATE_SUPPLIER_UNBIND &&
 		    link->flags & DL_FLAG_AUTOREMOVE_SUPPLIER)
-			__device_link_del(&link->kref);
+			kref_put(&link->kref, __device_link_del);
 
 		WRITE_ONCE(link->status, DL_STATE_DORMANT);
 	}
