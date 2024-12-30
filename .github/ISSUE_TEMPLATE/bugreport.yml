@@ -5,7 +5,7 @@ labels: [bug]
 body:
   - type: checkboxes
     attributes:
-      - label: Check these before submitting a bug report
+      label: Check these before submitting a bug report
         options:
           - label: I have flashed the kernel using the Zip file, and used TWRP to flash with it with no additional methods
             required: true
