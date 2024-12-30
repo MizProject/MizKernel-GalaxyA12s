@@ -18,13 +18,16 @@ body:
           - label: I have entered the correct superkey in Apatch, provided by the releases page (check this if you are using Apatch)
             required: false
           - label: I have checked that this was not a GSI issue
-            required: true
+            required: false
+          - label: I have checked that this was not a Stock ROM issue
+            required: false
           - label: This is my first time using a custom kernel
             required: false
           - label: This is **NOT** my first time using a custom kernel
             required: false
           - label: I am sure that my device is Galaxy A12s (SM-A127F) and its in Binary 9/A/B/C/D
             required: true
+          
     
   - type: textarea
     attributes:
@@ -56,6 +59,22 @@ body:
     attributes:
       label: Device Information
       description: Please provide the following information about your device.
+      placeholder: |
+        - Device: 
+        - Model: 
+        - Region Code (XTC/GLB, etc):
+        - Binary ID: 
+        - Android Version: 
+        - ROM: 
+        - Is Kernel has been modified using APatch?: 
+        - APatch Version: 
+        - Kernel Version: 
+        - APatch Superkey: 
+        - Modules used
+        - Magisk Version and/or type(if used): 
+        - Recovery: 
+        - GSI: 
+        - Is it stock ROM? or Custom ROM?/GSI ROM?:
     validations:
       required: true
 
