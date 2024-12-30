@@ -1,0 +1,69 @@
+name: Bug Report
+about: Create a report to help improve the kernel
+labels: [bug]
+
+body:
+  - type: checkboxes
+    attributes:
+      - label: Check these before submitting a bug report
+        options:
+          - title: I have flashed the kernel using the Zip file, and used TWRP to flash with it with no additional methods
+            required: true
+          - title: I have consulted the group chats, https://t.me/proj_mizumo_discuss , and https://t.me/a12schat
+            required: true
+          - title: I have checked the issues tab to see if my issue has already been reported
+            required: true
+          - title: I have sucessfully uninstalled Magisk and still having issue on APatch (check this if you are switching from Magisk to APatch)
+            required: false
+          - title: I have entered the correct superkey in Apatch, provided by the releases page (check this if you are using Apatch)
+            required: false
+          - title: I have checked that this was not a GSI issue
+            required: true
+          - title: This is my first time using a custom kernel
+            required: false
+          - title: This is **NOT** my first time using a custom kernel
+            required: false
+          - title: I am sure that my device is Galaxy A12s (SM-A127F) and its in Binary 9/A/B/C/D
+            required: true
+    
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  
+  - type: textarea
+    attributes:
+      label: Steps to reproduce the bug
+      description: Steps to reproduce the behavior:
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+
+  - type: textarea
+    attributes:
+      label: Device Information
+      description: Please provide the following information about your device.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Kernel Logs; last_kmsg, and dmesg
+      description: Please provide the following logs.
+    
+    
+
+  
