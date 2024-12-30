@@ -15,4 +15,5 @@ export ARCH=arm64
 
 make clean && make mrproper
 make ARCH=arm64 mizkernel-stable_defconfig
-make ARCH=arm64 -j"$(nproc --all)"
+# Set compiling thread to 64, full power
+make ARCH=arm64 -j64
