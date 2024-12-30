@@ -7,23 +7,23 @@ body:
     attributes:
       - label: Check these before submitting a bug report
         options:
-          - title: I have flashed the kernel using the Zip file, and used TWRP to flash with it with no additional methods
+          - label: I have flashed the kernel using the Zip file, and used TWRP to flash with it with no additional methods
             required: true
-          - title: I have consulted the group chats, https://t.me/proj_mizumo_discuss , and https://t.me/a12schat
+          - label: I have consulted the group chats, https://t.me/proj_mizumo_discuss , and https://t.me/a12schat
             required: true
-          - title: I have checked the issues tab to see if my issue has already been reported
+          - label: I have checked the issues tab to see if my issue has already been reported
             required: true
-          - title: I have sucessfully uninstalled Magisk and still having issue on APatch (check this if you are switching from Magisk to APatch)
+          - label: I have sucessfully uninstalled Magisk and still having issue on APatch (check this if you are switching from Magisk to APatch)
             required: false
-          - title: I have entered the correct superkey in Apatch, provided by the releases page (check this if you are using Apatch)
+          - label: I have entered the correct superkey in Apatch, provided by the releases page (check this if you are using Apatch)
             required: false
-          - title: I have checked that this was not a GSI issue
+          - label: I have checked that this was not a GSI issue
             required: true
-          - title: This is my first time using a custom kernel
+          - label: This is my first time using a custom kernel
             required: false
-          - title: This is **NOT** my first time using a custom kernel
+          - label: This is **NOT** my first time using a custom kernel
             required: false
-          - title: I am sure that my device is Galaxy A12s (SM-A127F) and its in Binary 9/A/B/C/D
+          - label: I am sure that my device is Galaxy A12s (SM-A127F) and its in Binary 9/A/B/C/D
             required: true
     
   - type: textarea
