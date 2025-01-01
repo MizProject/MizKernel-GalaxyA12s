@@ -1374,7 +1374,7 @@ static int init_dm(struct exynos_cpufreq_domain *domain,
 
 /*physwizz underclocking*/
 /*Underclocking little cores to 130MHz*/
-/*Underclocking it further to even prolong device power (in theory)*/
+
 static unsigned long arg_cpu_min_c1 = 130000; 
 static int __init cpufreq_read_cpu_min_c1(char *cpu_min_c1) /*integer remains in memory after function call*/
 {
@@ -1410,7 +1410,7 @@ static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
 __setup("cpu_min_c2=", cpufreq_read_cpu_min_c2);
 
 
-/*Chatur, Carlos Burero, physwizz & SUFandom */
+/*Chatur, Carlos Burero, physwizz & MizProject */
 /*Overclocking little cores to 2.2GHz*/
 static unsigned long arg_cpu_max_c1 = 2210000; /*max_cpu_freq=2.2 GHz for little cores*/
 
