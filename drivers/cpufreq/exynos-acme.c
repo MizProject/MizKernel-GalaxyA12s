@@ -1397,7 +1397,7 @@ unsigned long arg_cpu_min_c2 = 130000;
 static __init int cpufreq_read_cpu_min_c2(char *cpu_min_c2)
 {
 	unsigned long ui_khz;
-	int ret;c
+	int ret;
 
 	ret = kstrtoul(cpu_min_c2, 0, &ui_khz);
 	if (ret)
