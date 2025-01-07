@@ -12,7 +12,6 @@
 # Note:
 # Force the make to have it 64 threads because Github allows it
 
-export KSU_=$1
 export KBUILD_BUILD_USER="@Mizumo_prjkt"
 
 # Summon KSU and some toolchains
