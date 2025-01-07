@@ -7,4 +7,3 @@ export ARCH=arm64
 
 make clean && make mrproper
 make menuconfig
-make clean && make mrproper
