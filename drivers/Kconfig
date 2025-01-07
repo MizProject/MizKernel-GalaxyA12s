@@ -268,6 +268,6 @@ source "drivers/usb/typec/sm/sm5714/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO N
 source "drivers/battery/charger/sm5714_charger/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/battery/common/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 
-source "drivers/kernelsu" # FOR KSU
+source "drivers/kernelsu/Kconfig" # FOR KSU
 
 endmenu
