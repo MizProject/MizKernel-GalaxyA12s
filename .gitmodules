@@ -1,3 +1,9 @@
 [submodule "KernelSU"]
 	path = KernelSU
 	url = https://github.com/rsuntk/KernelSU
+[submodule "aarch64-linux-android-4.9-llvm"]
+	path = aarch64-linux-android-4.9-llvm
+	url = https://github.com/Mizumo-prjkt/aarch64-linux-android-4.9-llvm
+[submodule "clang-r383902"]
+	path = clang-r383902
+	url = https://github.com/Mizumo-prjkt/clang-r383902
