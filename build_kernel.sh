@@ -14,6 +14,11 @@
 
 export KBUILD_BUILD_USER="@Mizumo_prjkt"
 
+wipe_old_conf() {
+    rm -rf .config
+    rm -rf .config.old
+}
+
 # Summon KSU and some toolchains
 
 git-init_() {
@@ -36,6 +41,7 @@ START_BUILD_TIME_AND_DATE="$START_BUILD_TIME_RAW - $START_BUILD_DATE_RAW"
 echo "Starting Compile of A12s Kernel"
 echo "Start Build: $START_BUILD_TIME_AND_DATE"
 
+wipe_old_conf
 git-init_
 build
 
