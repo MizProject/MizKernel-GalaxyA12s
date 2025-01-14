@@ -9,10 +9,42 @@
 # make ARCH=arm64 mizkernel-a12snsxx_defconfig
 # make ARCH=arm64 -j64
 
+
+# Help
+
+if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then 
+    echo "MizKernel Builderscript"
+    echo "./build_kernel.sh"
+    echo ""
+    echo "Args:"
+    echo "Help      -h/--help"
+    echo "LTO"
+    echo "   FULL   --lto=full"
+    echo "   THIN   --lto=thin"
+    echo "   NONE   --lto=null"
+    echo "LLD"
+    echo "   LLD ON --lld=on"
+    echo "Not arg with LLD, disables LLD by default"
+    exit 1
+fi
+
+
+# Check if theres no arg
+
+
+if [ -n $1 ]; then
+    echo "No args was passed"
+    echo "See: ./build_kernel.sh -h"
+    echo "Starting in 10sec"
+    sleep 10
+fi
+
+
 # Note:
 # Force the make to have it 64 threads because Github allows it
 
 export KBUILD_BUILD_USER="@Mizumo_prjkt"
+export KBUILD_BUILD_HOST="MizProject (MIZPRJKT)"
 
 wipe_old_conf() {
     rm -rf .config
@@ -29,9 +61,30 @@ build() {
     export PLATFORM_VERSION=13
     export ANDROID_MAJOR_VERSION=t
     export ARCH=arm64
+
+    # Additional Features
+    if [ "$1" == "--lto=full" ]; then
+        export LTO=full
+        LTOARG="LTO=full"
+    elif [ "$1" == "--lto=thin" ]; then
+        export LTO=thin
+        LTOARG="LTO=thin"
+    elif [ "$1" == "--lto=null" ]; then
+        echo "NLTO"
+        LTOARG=" "
+    fi
+
+
+    if [ "$2" == "--lld=on" ]; then
+        export LD="ld.lld"
+        LDARG="LD=ld.lld"
+    else
+        LDARG=" "
+    fi
+
     
     make clean && make mrproper
-    make -j64 ARCH=arm64 mizkernel-a12snsxx_defconfig
+    make -j64 ARCH=arm64 mizkernel-a12snsxx_defconfig $LTOARG $LDARG
     make ARCH=arm64 -j64
 }
 
