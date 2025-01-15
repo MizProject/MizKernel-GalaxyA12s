@@ -45,6 +45,7 @@ fi
 
 export KBUILD_BUILD_USER="@Mizumo_prjkt"
 export KBUILD_BUILD_HOST="MizProject (MIZPRJKT)"
+export LLVm=1
 
 wipe_old_conf() {
     rm -rf .config
@@ -84,8 +85,8 @@ build() {
 
     
     make clean && make mrproper
-    make -j64 ARCH=arm64 mizkernel-a12snsxx_defconfig $LTOARG $LDARG
-    make ARCH=arm64 -j64
+    make -j64 -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y ARCH=arm64 mizkernel-a12snsxx_defconfig $LTOARG $LDARG
+    make -j64 -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y ARCH=arm64 
 }
 
 START_BUILD_TIME_RAW=$(TZ="Asia/Manila" date +%T)
