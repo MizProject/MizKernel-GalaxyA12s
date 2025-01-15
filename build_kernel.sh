@@ -17,13 +17,14 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     echo "./build_kernel.sh"
     echo ""
     echo "Args:"
-    echo "Help      -h/--help"
+    echo "Help       -h/--help"
     echo "LTO"
-    echo "   FULL   --lto=full"
-    echo "   THIN   --lto=thin"
-    echo "   NONE   --lto=null"
+    echo "   FULL    --lto=full"
+    echo "   THIN    --lto=thin"
+    echo "   NONE    --lto=null"
     echo "LLD"
-    echo "   LLD ON --lld=on"
+    echo "   LLD ON  --lld=on"
+    echo "   LLD OFF --lld=off"
     echo "Not arg with LLD, disables LLD by default"
     exit 1
 fi
@@ -32,7 +33,7 @@ fi
 # Check if theres no arg
 
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
     echo "No args was passed"
     echo "See: ./build_kernel.sh -h"
     echo "Starting in 10sec"
@@ -64,6 +65,7 @@ build() {
     export ARCH=arm64
 
     # Additional Features
+    # xxARG is fallback because for some reason it doesnt acknowledge the fact that it needs LTO or LLD or not
     if [ "$1" == "--lto=full" ]; then
         export LTO=full
         LTOARG="LTO=full"
@@ -79,7 +81,9 @@ build() {
     if [ "$2" == "--lld=on" ]; then
         export LD="ld.lld"
         LDARG="LD=ld.lld"
-    else
+    elif [ "$2" == "--lld=off" ]; then
+        LDARG=" "
+    else 
         LDARG=" "
     fi
 
