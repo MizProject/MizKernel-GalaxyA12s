@@ -1,7 +1,3 @@
 [submodule "KernelSU"]
 	path = KernelSU
 	url = https://github.com/rsuntk/KernelSU
-[submodule "miscellaneous/susfs4ksu_4.19"]
-	path = miscellaneous/susfs4ksu_4.19
-	url = https://gitlab.com/simonpunk/susfs4ksu
-	branch = 1.4.2-kernel-4.19
