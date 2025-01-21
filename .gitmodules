@@ -8,3 +8,9 @@
 [submodule "KernelSU-Next"]
 	path = KernelSU-Next
 	url = https://github.com/rifsxd/KernelSU-Next
+[submodule "toolchain/aarch64-linux-android-4.9"]
+	path = toolchain/aarch64-linux-android-4.9
+	url = https://github.com/Mizumo-prjkt/aarch64-linux-android-4.9
+[submodule "toolchain/clang-r383902"]
+	path = toolchain/clang-r383902
+	url = https://github.com/Mizumo-prjkt/clang-r383902
