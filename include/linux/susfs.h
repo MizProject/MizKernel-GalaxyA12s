@@ -8,9 +8,9 @@
 #include <linux/path.h>
 #include <linux/susfs_def.h>
 
-#define SUSFS_VERSION "v1.5.3"
+#define SUSFS_VERSION "v1.5.4"
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5,0,0)
-#define SUSFS_VARIANT "NON-GKI"
+#define SUSFS_VARIANT "NON-GKI (SUS SU not available)"
 #else
 #define SUSFS_VARIANT "GKI"
 #endif
