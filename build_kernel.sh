@@ -107,7 +107,9 @@ echo "Starting Compile of A12s Kernel"
 echo "Start Build: $START_BUILD_TIME_AND_DATE"
 
 wipe_old_conf
+if [ "$3" == "--gs=on" ]; then
 git-init_
+fi
 build
 
 echo "Build Ended :D"
