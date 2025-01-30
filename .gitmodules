@@ -2,6 +2,7 @@
 [submodule "KernelSU"]
 	path = KernelSU
 	url = https://github.com/MizProject/KernelSU
+	branch = main_susfs
 [submodule "misc/susfs"]
 	path = misc/susfs
 	url = https://gitlab.com/simonpunk/susfs4ksu
