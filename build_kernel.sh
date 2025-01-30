@@ -26,6 +26,9 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     echo "   LLD ON  --lld=on"
     echo "   LLD OFF --lld=off"
     echo "Not arg with LLD, disables LLD by default"
+    echo "Git Submodule fetch"
+    echo "   Git submodule on  --gs=on"
+    echo "   Git submodule off --gs=off"
     exit 1
 fi
 
@@ -55,9 +58,13 @@ wipe_old_conf() {
 
 # Summon KSU and some toolchains
 
+if [ "$3" == "--gs=on" ]; then
 git-init_() {
     git submodule init && git submodule update
 }
+else
+    echo "Submodule init and update off"
+fi
 
 build() {
     export PLATFORM_VERSION=13
