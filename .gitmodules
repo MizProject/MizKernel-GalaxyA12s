@@ -1,6 +1,7 @@
+# Set KSU to be Own build for control
 [submodule "KernelSU"]
 	path = KernelSU
-	url = https://github.com/rsuntk/KernelSU
+	url = https://github.com/MizProject/KernelSU
 [submodule "misc/susfs"]
 	path = misc/susfs
 	url = https://gitlab.com/simonpunk/susfs4ksu
