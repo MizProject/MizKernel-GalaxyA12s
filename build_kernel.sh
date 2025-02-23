@@ -49,7 +49,7 @@ fi
 
 export KBUILD_BUILD_USER="@Mizumo_prjkt"
 export KBUILD_BUILD_HOST="MizProject (MIZPRJKT)"
-export LLVm=1
+export LLVM=1
 
 wipe_old_conf() {
     rm -rf .config
