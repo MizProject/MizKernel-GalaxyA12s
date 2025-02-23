@@ -2861,11 +2861,6 @@ void trace_printk_init_buffers(void)
 	pr_warn("**********************************************************\n");
 	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
 	pr_warn("**                                                      **\n");
-	pr_warn("** trace_printk() being used. Allocating extra memory.  **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** This means that this is a DEBUG kernel and it is     **\n");
-	pr_warn("** unsafe for production use.                           **\n");
-	pr_warn("**                                                      **\n");
 	pr_warn("** Please tell Mizumo-prjkt to f-king disable this if   **\n");
 	pr_warn("** You aren't Mizumo-prjkt and tell him to get yourself **\n");
 	pr_warn("** A better kernel variant build                        **\n");
@@ -2887,9 +2882,9 @@ void trace_printk_init_buffers(void)
 	 */
 	if (global_trace.trace_buffer.buffer)
 		tracing_start_cmdline_record();
-#else
-	return;
-#endif /* CONFIG_TRACE_PRINTK */
+	#else
+		return;
+	#endif /* CONFIG_TRACE_PRINTK */
 }
 
 void trace_printk_start_comm(void)
