@@ -6,6 +6,11 @@
 config USER_STACKTRACE_SUPPORT
 	bool
 
+config TRACE_PRINTK
+	bool "Enable trace_printk()"
+	depends on TRACING
+	default n
+
 config NOP_TRACER
 	bool
 
