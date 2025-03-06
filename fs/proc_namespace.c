@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GPL-2.0
+/// SPDX-License-Identifier: GPL-2.0
 /*
  * fs/proc_namespace.c - handling of /proc/<pid>/{mounts,mountinfo,mountstats}
  *
@@ -18,8 +18,10 @@
 
 #include "proc/internal.h" /* only for get_proc_task() in ->open() */
 
+
 #include "pnode.h"
 #include "internal.h"
+
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
 extern bool susfs_is_current_ksu_domain(void);
@@ -110,7 +112,7 @@ static int show_vfsmnt(struct seq_file *m, struct vfsmount *mnt)
 	int err;
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
-	if (unlikely((r->mnt.mnt_root->d_inode->i_state & INODE_STATE_SUS_MOUNT) && !susfs_is_current_ksu_domain()))
+	if (unlikely(r->mnt.mnt_root->d_inode->i_state & INODE_STATE_SUS_MOUNT))
 		return 0;
 #endif
 
@@ -151,7 +153,7 @@ static int show_mountinfo(struct seq_file *m, struct vfsmount *mnt)
 	int err;
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
-	if (unlikely((r->mnt.mnt_root->d_inode->i_state & INODE_STATE_SUS_MOUNT) && !susfs_is_current_ksu_domain()))
+	if (unlikely(r->mnt.mnt_root->d_inode->i_state & INODE_STATE_SUS_MOUNT))
 		return 0;
 #endif
 
@@ -220,7 +222,7 @@ static int show_vfsstat(struct seq_file *m, struct vfsmount *mnt)
 	int err;
 
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
-	if (unlikely((r->mnt.mnt_root->d_inode->i_state & INODE_STATE_SUS_MOUNT) && !susfs_is_current_ksu_domain()))
+	if (unlikely(r->mnt.mnt_root->d_inode->i_state & INODE_STATE_SUS_MOUNT))
 		return 0;
 #endif
 
