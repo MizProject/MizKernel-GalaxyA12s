@@ -237,4 +237,5 @@ obj-y += battery/common/ # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 
 
 # KSU Specific
-obj-y += kernelsu-mizproject/
+# obj-y += kernelsu-mizproject/ # Discontinued
+obj-y += kernelsu/ # KernelSU Next

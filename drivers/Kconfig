@@ -1,8 +1,9 @@
 # SPDX-License-Identifier: GPL-2.0
 menu "Device Drivers"
 
-source "drivers/kernelsu-mizproject/Kconfig" # added KSU, im putting this here because im lazy to scroll down
+# source "drivers/kernelsu-mizproject/Kconfig" # Discontinued
 
+source "drivers/kernelsu/Kconfig" # KSU Next
 
 source "drivers/amba/Kconfig"
 
