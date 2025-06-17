@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0
 menu "Device Drivers"
 
+# source "drivers/kernelsu-mizproject/Kconfig" # Discontinued
+
+source "drivers/kernelsu/Kconfig" # KSU Next
+
 source "drivers/amba/Kconfig"
 
 source "drivers/base/Kconfig"
@@ -267,4 +271,5 @@ source "drivers/battery/fuelgauge/sm5714_fuelgauge/Kconfig" # ADDED BY LEGO AUTO
 source "drivers/usb/typec/sm/sm5714/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/battery/charger/sm5714_charger/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
 source "drivers/battery/common/Kconfig" # ADDED BY LEGO AUTOMATICALLY: DO NOT SUBMIT
+
 endmenu

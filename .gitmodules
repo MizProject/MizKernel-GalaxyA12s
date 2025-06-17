@@ -1,6 +1,21 @@
+# Set KSU to be Own build for control
+[submodule "KernelSU"]
+	path = KernelSU
+	url = https://github.com/MizProject/KernelSU
+	branch = main_susfs
+[submodule "misc/susfs"]
+	path = misc/susfs
+	url = https://gitlab.com/simonpunk/susfs4ksu
+	branch = kernel-4.19
+[submodule "KernelSU-Next"]
+	path = KernelSU-Next
+	url = https://github.com/rifsxd/KernelSU-Next
 [submodule "toolchain/aarch64-linux-android-4.9"]
 	path = toolchain/aarch64-linux-android-4.9
 	url = https://github.com/Mizumo-prjkt/aarch64-linux-android-4.9
 [submodule "toolchain/clang-r383902"]
 	path = toolchain/clang-r383902
 	url = https://github.com/Mizumo-prjkt/clang-r383902
+[submodule "toolchain/clang-r416183b"]
+	path = toolchain/clang-r416183b
+	url = https://github.com/MizProject/clang-r416183b

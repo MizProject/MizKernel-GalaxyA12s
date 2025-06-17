@@ -1,0 +1,11 @@
+
+Changelog Lists
+
+
+v2.1rc01-Rappa-KSU
+- Add KSU Support for 2.1
+- Disabled KPROBES Because KPROBES actually is borked in this kernel on compile (although idk how did APatch Managed to hook itself into the kernel with KPROBES in this kernel ffs)
+
+v2.01rc01
+- Bug fixes
+

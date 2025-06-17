@@ -96,8 +96,8 @@ build() {
 
     
     make clean && make mrproper
-    make -j$(nproc --all) KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y ARCH=arm64 mizkernel-a12snsxx_defconfig $LTOARG $LDARG
-    make -j$(nproc --all) KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y ARCH=arm64 
+    make -j64  KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y ARCH=arm64 mizkernel-a12snsxx_defconfig $LTOARG $LDARG
+    make -j64  KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y ARCH=arm64 
 }
 
 START_BUILD_TIME_RAW=$(TZ="Asia/Manila" date +%T)
@@ -117,4 +117,5 @@ END_BUILD_TIME_RAW=$(TZ="Asia/Manila" date +%T)
 END_BUILD_DATE_RAW=$(TZ="Asia/Manila" date +%F)
 END_BUILD_TIME_AND_DATE="$END_BUILD_TIME_RAW - $END_BUILD_DATE_RAW"
 echo "Build Ended: $END_BUILD_TIME_AND_DATE"
+
 

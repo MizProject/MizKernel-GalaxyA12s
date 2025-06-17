@@ -2829,6 +2829,8 @@ static void put_trace_buf(void)
 	this_cpu_dec(trace_percpu_buffer->nesting);
 }
 
+
+#ifdef CONFIG_TRACE_PRINTK
 static int alloc_percpu_trace_buffer(void)
 {
 	struct trace_buffer_struct *buffers;
@@ -2840,6 +2842,7 @@ static int alloc_percpu_trace_buffer(void)
 	trace_percpu_buffer = buffers;
 	return 0;
 }
+#endif /* CONFIG_TRACE_PRINTK */
 
 static int buffers_allocated;
 
@@ -2862,6 +2865,13 @@ void trace_printk_init_buffers(void)
 	pr_warn("** You aren't Mizumo-prjkt and tell him to get yourself **\n");
 	pr_warn("** A better kernel variant build                        **\n");
 	pr_warn("**                                                      **\n");
+	pr_warn("** This means that this is a DEBUG kernel and it is     **\n");
+	pr_warn("** unsafe for production use.                           **\n");
+	pr_warn("**                                                      **\n");
+	pr_warn("** Please tell Mizumo-prjkt to f-king disable this if   **\n");
+	pr_warn("** You aren't Mizumo-prjkt and tell him to get yourself **\n");
+	pr_warn("** A better kernel variant build                        **\n");
+	pr_warn("**                                                      **\n");
 	pr_warn("**                                                      **\n");
 	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
 	pr_warn("**********************************************************\n");
@@ -2879,9 +2889,9 @@ void trace_printk_init_buffers(void)
 	 */
 	if (global_trace.trace_buffer.buffer)
 		tracing_start_cmdline_record();
-	#else
-		return;
-	#endif /* CONFIG_TRACE_PRINTK */
+#else
+	return;
+#endif /* CONFIG_TRACE_PRINTK */
 }
 
 void trace_printk_start_comm(void)

@@ -273,9 +273,9 @@ BPF_CALL_5(bpf_trace_printk, char *, fmt, u32, fmt_size, u64, arg1,
 	      : __BPF_ARG2_TP((u32)arg3, ##__VA_ARGS__)))
 
 	return __BPF_TP_EMIT();
-	#else
-		return 0;
-	#endif /* CONFIG_TRACE_PRINTK */
+#else
+	return 0;
+#endif /* CONFIG_TRACE_PRINTK */
 }
 
 static const struct bpf_func_proto bpf_trace_printk_proto = {

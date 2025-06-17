@@ -758,6 +758,19 @@ ftrace_vprintk(const char *fmt, va_list ap)
 }
 #endif /* CONFIG_TRACE_PRINTK */
 
+#else
+static inline __printf(1, 2)
+int trace_printk(const char *fmt, ...)
+{
+	return 0;
+}
+static inline int
+ftrace_vprintk(const char *fmt, va_list ap)
+{
+	return 0;
+}
+#endif /* CONFIG_TRACE_PRINTK */
+
 /**
  * trace_puts - write a string into the ftrace buffer
  * @str: the string to record
